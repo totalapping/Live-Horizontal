@@ -32,7 +32,7 @@ while true; do
     -c:v libx264 -preset veryfast -b:v 2500k -maxrate 2500k -bufsize 5000k \
     -vf "scale=1280:720,fps=30" -g 60 -keyint_min 30 \
     -c:a aac -b:a 128k -ar 44100 \
-    -f flv "rtmp://a.rtmp.youtube.com/live2/2ytm-kw83-gwbh-ch8p-fxhd" 2>> /app/ffmpeg.log
+    -f flv "rtmp://a.rtmp.youtube.com/live2/2y18-4tcf-0dfc-d5jp-3wq5" 2>> /app/ffmpeg.log
   
   # If stream crashes
   echo "[$(date)] Stream crashed! Restarting in 5 seconds..." >> /app/stream.log
