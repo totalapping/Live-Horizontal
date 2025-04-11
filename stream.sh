@@ -1,17 +1,16 @@
 #!/bin/bash
 
+# Start a lightweight HTTP server in the background
+python3 -m http.server 8000 &
+
 # Create app directory if not exists
 mkdir -p /app
 
-# ✅ Start a lightweight HTTP server in background (for Koyeb health check)
-# It will listen on port 8000
-python3 -m http.server 8000 --directory /app &
-
-# Download video only if not already present (with retries)
+# Download video only if not already present
 if [ ! -f "/app/video.mp4" ]; then
   echo "[$(date)] Downloading video..." >> /app/stream.log
   for i in {1..5}; do
-    wget https://github.com/totalapping/Live-Horizontal/releases/download/v1.0/live.mp4
+    wget https://github.com/totalapping/Live-Horizontal/releases/download/v1.0/live.mp4 -O /app/video.mp4
     if [ $? -eq 0 ]; then
       echo "[$(date)] Download successful" >> /app/stream.log
       break
@@ -41,4 +40,5 @@ while true; do
   echo "[$(date)] Stream crashed! Restarting in 5 seconds..." >> /app/stream.log
   sleep 5
 done
+
 
