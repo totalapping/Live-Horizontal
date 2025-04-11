@@ -3,6 +3,10 @@
 # Create app directory if not exists
 mkdir -p /app
 
+# ✅ Start a lightweight HTTP server in background (for Koyeb health check)
+# It will listen on port 8000
+python3 -m http.server 8000 --directory /app &
+
 # Download video only if not already present (with retries)
 if [ ! -f "/app/video.mp4" ]; then
   echo "[$(date)] Downloading video..." >> /app/stream.log
@@ -34,7 +38,7 @@ while true; do
     -c:a aac -b:a 128k -ar 44100 \
     -f flv "rtmp://a.rtmp.youtube.com/live2/2y18-4tcf-0dfc-d5jp-3wq5" 2>> /app/ffmpeg.log
   
-  # If stream crashes
   echo "[$(date)] Stream crashed! Restarting in 5 seconds..." >> /app/stream.log
   sleep 5
 done
+
