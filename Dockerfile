@@ -1,18 +1,22 @@
 FROM ubuntu:22.04
 
-# Install dependencies
+# Reduce image size and install only what's needed
 RUN apt-get update && \
-    apt-get install -y ffmpeg wget python3 && \
-    rm -rf /var/lib/apt/lists/*
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ffmpeg wget ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
-RUN mkdir -p /app
 WORKDIR /app
 
-# Copy script
+# Copy stream script
 COPY stream.sh /app/
 RUN chmod +x /app/stream.sh
 
-# Run script
+# Health check (optional but helpful for Koyeb stability)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD pgrep ffmpeg || exit 1
+
+# Start script
 CMD ["/app/stream.sh"]
 
