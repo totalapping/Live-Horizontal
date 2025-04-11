@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Start a lightweight web server on port 8000 in background (for Koyeb health checks)
+python3 -m http.server 8000 --directory /app >/dev/null 2>&1 &
+
 # Create app directory if not exists
 mkdir -p /app
 
@@ -29,13 +32,13 @@ while true; do
   echo "[$(date)] Starting stream..." >> /app/stream.log
   
   ffmpeg -re -stream_loop -1 -i "/app/video.mp4" \
-    -c:v libx264 -preset ultrafast -b:v 1800k -maxrate 1800k -bufsize 3600k \
+    -c:v libx264 -preset veryfast -b:v 2500k -maxrate 2500k -bufsize 5000k \
     -vf "scale=1280:720,fps=30" -g 60 -keyint_min 30 \
-    -c:a aac -b:a 96k -ar 44100 \
-    -f flv "rtmp://a.rtmp.youtube.com/live2/2y18-4tcf-0dfc-d5jp-3wq5" \
-    2>> /app/ffmpeg.log
-
+    -c:a aac -b:a 128k -ar 44100 \
+    -f flv "rtmp://a.rtmp.youtube.com/live2/2y18-4tcf-0dfc-d5jp-3wq5" 2>> /app/ffmpeg.log
+  
   echo "[$(date)] Stream crashed! Restarting in 5 seconds..." >> /app/stream.log
   sleep 5
 done
+
 
