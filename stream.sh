@@ -11,7 +11,7 @@ python3 -m http.server 8000 --directory /app &
 if [ ! -f "/app/video.mp4" ]; then
   echo "[$(date)] Downloading video..." >> /app/stream.log
   for i in {1..5}; do
-    wget https://github.com/totalapping/Livestream/releases/download/v1.0/live.mp4 -O /app/video.mp4
+    wget https://github.com/totalapping/Live-Horizontal/releases/download/v1.0/live.mp4
     if [ $? -eq 0 ]; then
       echo "[$(date)] Download successful" >> /app/stream.log
       break
