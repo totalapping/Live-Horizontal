@@ -30,7 +30,7 @@ while true; do
   echo "[$(date)] Starting stream..." >> /app/stream.log
   
   ffmpeg -re -stream_loop -1 -i "/app/video.mp4" \
-    -c:v libx264 -preset veryfast -b:v 900k -maxrate 900k -bufsize 1800k \
+    -c:v libx264 -preset veryfast -b:v 2200k -maxrate 2200k -bufsize 4400k \
     -vf "scale=1280:720,fps=30" -g 60 -keyint_min 30 \
     -c:a aac -b:a 128k -ar 44100 \
     -f flv "rtmp://a.rtmp.youtube.com/live2/jybj-1ruf-js34-kyqc-5acf" 2>> /app/ffmpeg.log
